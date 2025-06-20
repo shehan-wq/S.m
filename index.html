@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>s.m Official</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER + LOGO + NAV -->
+  <header>
+    <img src="assets/logo.png" alt="s.m Logo" class="logo" />
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="#downloads">Downloads</a>
+    </nav>
+  </header>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="hero">
+    <h2>Welcome to s.m</h2>
+    <p>Smart Solutions. Simple Designs. Powerful Tech.</p>
+    <a href="#contact" class="btn">Get Started</a>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section">
+    <h2>About Us</h2>
+    <p>
+      s.m is a modern tech brand focused on helping students, developers,
+      and creators through innovative ICT tools, custom websites, and AI
+      solutions. We combine simplicity with style to deliver meaningful
+      digital experiences.
+    </p>
+  </section>
+
+  <!-- SERVICES SECTION -->
+  <section id="services" class="section">
+    <h2>Our Services</h2>
+    <ul>
+      <li>📘 A/L ICT short notes and PDF guides</li>
+      <li>🌐 Custom websites and web applications</li>
+      <li>🤖 Sinhala-English AI chatbot development</li>
+      <li>🎨 Logo design, UI/UX and branding</li>
+    </ul>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <form id="contact-form">
+      <input type="text" name="user_name" placeholder="Your Name" required />
+      <input type="email" name="user_email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </section>
+
+  <!-- DOWNLOADS SECTION -->
+  <section id="downloads" class="section">
+    <h2>Download Notes</h2>
+    <p>Access our latest A/L ICT short notes and PDF guides:</p>
+    <ul>
+      <li>
+        <a href="pdfs/grade12_notes.pdf" target="_blank"
+          >📄 Grade 12 ICT Notes (PDF)</a
+        >
+      </li>
+      <li>
+        <a href="pdfs/grade13_notes.pdf" target="_blank"
+          >📄 Grade 13 ICT Notes (PDF)</a
+        >
+      </li>
+    </ul>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 s.m. All rights reserved. | Call us: 0755282351</p>
+  </footer>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+    })();
+
+    window.onload = function () {
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          emailjs
+            .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", this)
+            .then(
+              function () {
+                alert("Message sent successfully!");
+              },
+              function (error) {
+                alert("Failed to send message: " + JSON.stringify(error));
+              }
+            );
+
+          this.reset();
+        });
+    };
+  </script>
+</body>
+</html>
+
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>s.m - Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Welcome to s.m!</h1>
+  <p>ඔබ login වී ඇත.</p>
+  <button onclick="logout()">Logout</button>
+
+  <script type="module" src="firebase.js"></script>
+</body>
+</html>
+
+<!-- login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login | s.m</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>s.m - පරිශීලක Login</h2>
+  <input type="email" id="email" placeholder="Email" required><br><br>
+  <input type="password" id="password" placeholder="Password" required><br><br>
+  <button onclick="login()">Login</button>
+
+  <script type="module" src="firebase.js"></script>
+</body>
+</html>
+
+<!-- signup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup | s.m</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>s.m - ලියාපදිංචි වන්න</h2>
+  <input type="email" id="email" placeholder="Email" required><br><br>
+  <input type="password" id="password" placeholder="Password" required><br><br>
+  <button onclick="signUp()">Signup</button>
+
+  <script type="module" src="firebase.js"></script>
+</body>
+</html>
+
+<!-- firebase.js -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHO6HH6qId74J1WAJRKFFw0K28R0HIua8",
+    authDomain: "http://sm-website-auth.firebaseapp.com",
+    projectId: "sm-website-auth",
+    storageBucket: "http://sm-website-auth.firebasestorage.app",
+    messagingSenderId: "681276654353",
+    appId: "1:681276654353:web:faabfec3caef460ad402b0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.signUp = function () {
+    const email = document.getElementById("Email").value;
+    const password = document.getElementById("password").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("Signup සාර්ථකයි!");
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert("Signup Error: " + error.message);
+      });
+  };
+
+  window.login = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("Login සාර්ථකයි!");
+        window.location.href = "index.html";
+      })
+      .catch((error) => {
+        alert("Login Error: " + error.message);
+      });
+  };
+
+  window.logout = function () {
+    signOut(auth).then(() => {
+      alert("Logged out");
+      window.location.href = "login.html";
+    });
+  };
+</script>

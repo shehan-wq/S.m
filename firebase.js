@@ -1,0 +1,3 @@
+// firebase.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+// ... බලාපොරොත්තු වූ full code එක මෙහි ...
