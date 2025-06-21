@@ -18,8 +18,8 @@
     <nav>
       <a href="#home">Home</a>
       <a href="#about">About</a>
+	  <a href="#contact">Contact</a>
       <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
       <a href="#downloads">Downloads</a>
     </nav>
   </header>
@@ -28,7 +28,7 @@
   <section id="home" class="hero">
     <h2>Welcome to s.m</h2>
     <p>Smart Solutions. Simple Designs. Powerful Tech.</p>
-    <a href="#contact" class="btn">Get Started</a>
+    <a>Get Started</a>
   </section>
 
   <!-- ABOUT SECTION -->
@@ -165,6 +165,14 @@
   <button onclick="signUp()">Signup</button>
 
   <script type="module" src="firebase.js"></script>
+  <!-- WhatsApp Chat Button -->
+<a href="https://wa.me/94755282351?text=Hi%20I%20want%20to%20know%20about%20S.m" 
+   class="whatsapp-float" target="_blank">
+   <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp Chat" />
+</a>
+<a href="https://wa.me/94755282351" class="whatsapp-float" target="_blank">
+  <img src="whatsapp-icon.png" alt="WhatsApp">
+</a
 </body>
 </html>
 
@@ -225,3 +233,284 @@
     });
   };
 </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S.m Website</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  
+
+  <a href="https://wa.me/94755282351" class="whatsapp-float" target="_blank">
+    <img src="whatsapp-icon.png" alt="WhatsApp">
+  </a>
+</body>
+</html>
+<!DOCTYPE html><html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up - S.m</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      padding: 20px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #00ffcc;
+      border: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">📱 Sign Up to S.m</h2>
+  <form id="signup-form">
+    <input type="text" id="name" placeholder="Full Name" required />
+    <input type="text" id="address" placeholder="Address" required />
+    <input type="text" id="phone" placeholder="Phone Number (e.g. +9477xxxxxxx)" required />
+    <select id="gender" required>
+      <option value="">Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <div id="recaptcha-container"></div>
+    <button type="button" onclick="sendOTP()">📤 Send OTP</button>
+    <input type="text" id="otp" placeholder="Enter OTP" />
+    <button type="button" onclick="verifyOTP()">✅ Verify & Register</button>
+  </form>  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
+      authDomain: "fir-m-auth.firebaseapp.com",
+      projectId: "fir-m-auth",
+      storageBucket: "fir-m-auth.firebasestorage.app",
+      messagingSenderId: "506358518430",
+      appId: "1:506358518430:web:4b3994472cef39e671a18f"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let confirmationResult;
+
+    function sendOTP() {
+      const phoneNumber = document.getElementById("phone").value;
+      const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+
+      auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then(function(result) {
+          confirmationResult = result;
+          alert("OTP sent to your phone");
+        }).catch(function(error) {
+          alert(error.message);
+        });
+    }
+
+    function verifyOTP() {
+      const otp = document.getElementById("otp").value;
+      confirmationResult.confirm(otp).then(function(result) {
+        const user = result.user;
+        const name = document.getElementById("name").value;
+        const address = document.getElementById("address").value;
+        const gender = document.getElementById("gender").value;
+        const phone = document.getElementById("phone").value;
+
+        db.collection("users").doc(user.uid).set({
+          name,
+          address,
+          gender,
+          phone,
+          uid: user.uid
+        }).then(() => {
+          alert("User registered successfully!");
+        });
+
+      }).catch(function(error) {
+        alert("Invalid OTP");
+      });
+    }
+  </script></body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>S.M Firebase OTP Signup</title>
+</head>
+<body>
+  <h2>📱 Firebase OTP Signup (S.M)</h2>
+
+  <label>📞 Phone Number:</label><br>
+  <input type="text" id="phone" placeholder="+94771234567"><br><br>
+
+  <div id="recaptcha-container"></div><br>
+  <button id="sendOTP">Send OTP</button><br><br>
+
+  <label>🔐 Enter OTP:</label><br>
+  <input type="text" id="otp" placeholder="Enter OTP"><br><br>
+  <button id="verifyOTP">Verify OTP</button>
+
+  <!-- Firebase App & Auth SDK via Module -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    // 🔐 Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
+      authDomain: "fir-m-auth.firebaseapp.com",
+      projectId: "fir-m-auth",
+      storageBucket: "fir-m-auth.appspot.com",
+      messagingSenderId: "506358518430",
+      appId: "1:506358518430:web:4b3994472cef39e671a18f"
+    };
+
+    // 🔧 Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ✅ Setup reCAPTCHA
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'normal',
+      'callback': (response) => {
+        console.log("reCAPTCHA passed");
+      }
+    }, auth);
+    recaptchaVerifier.render();
+
+    // 📤 Send OTP
+    document.getElementById("sendOTP").addEventListener("click", async () => {
+      const phone = document.getElementById("phone").value;
+      const appVerifier = window.recaptchaVerifier;
+
+      try {
+        const confirmationResult = await signInWithPhoneNumber(auth, phone, appVerifier);
+        window.confirmationResult = confirmationResult;
+        alert("✅ OTP Sent to your phone!");
+      } catch (error) {
+        alert("🚫 Error sending OTP: " + error.message);
+        console.error(error);
+      }
+    });
+
+    // ✅ Verify OTP
+    document.getElementById("verifyOTP").addEventListener("click", async () => {
+      const otp = document.getElementById("otp").value;
+
+      try {
+        const result = await window.confirmationResult.confirm(otp);
+        alert("🎉 Phone number verified successfully!");
+        console.log(result.user);
+      } catch (error) {
+        alert("🚫 Incorrect OTP. Try again.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Firebase OTP Signup</title>
+</head>
+<script type="module" src="script.js"></script>
+<body>
+  <h2>Firebase Phone OTP Signup</h2>
+
+  <label>Phone Number:</label><br>
+  <input type="text" id="phone" placeholder="+94771234567" /><br><br>
+
+  <!-- reCAPTCHA widget here -->
+  <div id="recaptcha-container"></div><br>
+
+  <button id="sendOTP">Send OTP</button><br><br>
+
+  <label>Enter OTP:</label><br>
+  <input type="text" id="otp" placeholder="Enter OTP here" /><br><br>
+
+  <button id="verifyOTP">Verify OTP</button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
+      authDomain: "fir-m-auth.firebaseapp.com",
+      projectId: "fir-m-auth",
+      storageBucket: "fir-m-auth.appspot.com",
+      messagingSenderId: "506358518430",
+      appId: "1:506358518430:web:4b3994472cef39e671a18f"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Setup reCAPTCHA
+    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'normal',
+      'callback': (response) => {
+        console.log("reCAPTCHA verified");
+      }
+    }, auth);
+
+    recaptchaVerifier.render();
+
+    document.getElementById('sendOTP').addEventListener('click', async () => {
+      const phoneNumber = document.getElementById('phone').value;
+      const appVerifier = window.recaptchaVerifier;
+
+      try {
+        const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+        window.confirmationResult = confirmationResult;
+        alert("OTP sent! Please check your phone.");
+      } catch (error) {
+        alert("Error sending OTP: " + error.message);
+        console.error(error);
+      }
+    });
+
+    document.getElementById('verifyOTP').addEventListener('click', async () => {
+      const otp = document.getElementById('otp').value;
+
+      try {
+        const result = await window.confirmationResult.confirm(otp);
+        alert("Phone number verified successfully!");
+        console.log(result.user);
+      } catch (error) {
+        alert("Incorrect OTP, try again.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

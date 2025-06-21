@@ -18,17 +18,7 @@ body {
   margin-right: 20px;
 }
 
-/* Header */
-header {
-  background: #121212;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+
 }
 
 nav a {
@@ -240,4 +230,53 @@ button:hover {
 h1, h2 {
   color: #00ffcc;
   margin-bottom: 20px;
+}.whatsapp-float {
+  position: fixed;
+  width: 55px;
+  height: 55px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  border-radius: 50px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s;
 }
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float img {
+  width: 30px;
+  height: 30px;
+}<!-- style.css -->body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f0f0f; color: #ffffff; }
+
+header { background-color: #1f1f1f; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); }
+
+h1 { font-size: 2rem; margin-bottom: 10px; }
+
+nav { margin-top: 10px; }
+
+nav a { color: #00ffcc; text-decoration: none; margin: 0 10px; font-weight: bold; transition: color 0.3s ease; }
+
+nav a:hover { color: #ffffff; }
+
+main { padding: 30px; line-height: 1.6; }
+
+.whatsapp-float:hover { transform: scale(1.1); }
+
+.whatsapp-float img { width: 30px; height: 30px; }
+
+/* Button styling */ button, .btn { background-color: #00ffcc; color: #000; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer; transition: background-color 0.3s ease; font-weight: bold; }
+
+button:hover, .btn:hover { background-color: #00ddb0; }
+
+/* Firebase Login/Logout Links */ .auth-links { position: absolute; top: 20px; right: 20px; }
+
+.auth-links a { margin-left: 15px; color: #cccccc; text-decoration: none; font-size: 14px; }
+
+.auth-links a:hover { color: #ffffff; }
