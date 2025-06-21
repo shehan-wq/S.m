@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup Page - S.M</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #00ffcc;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00ddb0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Sign Up to S.M</h2>
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Name" required />
+    <input type="text" id="address" placeholder="Address" required />
+    <input type="text" id="phone" placeholder="Phone Number" required />
+    <select id="gender" required>
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
+      authDomain: "fir-m-auth.firebaseapp.com",
+      databaseURL: "https://fir-m-auth-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "fir-m-auth",
+      storageBucket: "fir-m-auth.appspot.com",
+      messagingSenderId: "506358518430",
+      appId: "1:506358518430:web:4b3994472cef39e671a18f"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Form Submit
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const address = document.getElementById("address").value;
+      const phone = document.getElementById("phone").value;
+      const gender = document.getElementById("gender").value;
+
+      const userId = Date.now(); // Unique ID
+
+      db.ref("users/" + userId).set({
+        username: username,
+        address: address,
+        phone: phone,
+        gender: gender
+      })
+      .then(() => {
+        alert("Signup successful!");
+        document.getElementById("signupForm").reset();
+        window.location.href = "set-password.html?userId=" + userId;
+      })
+      .catch((error) => {
+        alert("Error saving data: " + error.message);
+      });
+    });
+  </script>
+</body>
+</html>

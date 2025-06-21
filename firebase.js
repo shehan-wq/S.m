@@ -166,3 +166,24 @@ document.getElementById('verifyOTP').addEventListener('click', async () => {
     alert("Invalid OTP");
   }
 });
+<script>
+  function updateDateTime() {
+    const now = new Date();
+    const formatted = now.toLocaleString('en-GB'); // ex: 21/06/2025, 12:34:56
+    document.getElementById("datetime").textContent = 📅 ${formatted};
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime(); // run once at first
+</script>
+<script>
+  const modal = document.getElementById("signupModal");
+  const btn = document.getElementById("getStartedBtn");
+  const closeBtn = document.querySelector(".closeBtn");
+
+  btn.onclick = () => modal.style.display = "block";
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => {
+    if (e.target == modal) modal.style.display = "none";
+  };
+</script>

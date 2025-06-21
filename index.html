@@ -18,7 +18,7 @@
     <nav>
       <a href="#home">Home</a>
       <a href="#about">About</a>
-	  <a href="#contact">Contact</a>
+	  <a href="#contact">contact</a>
       <a href="#services">Services</a>
       <a href="#downloads">Downloads</a>
     </nav>
@@ -28,8 +28,10 @@
   <section id="home" class="hero">
     <h2>Welcome to s.m</h2>
     <p>Smart Solutions. Simple Designs. Powerful Tech.</p>
-    <a>Get Started</a>
-  </section>
+   <!-- Get Started Button -->
+   <a href="signup.html">
+  <button id="getStartedBtn">Get Started</button>
+</a>
 
   <!-- ABOUT SECTION -->
   <section id="about" class="section">
@@ -122,32 +124,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>s.m - Home</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h1>Welcome to s.m!</h1>
-  <p>ඔබ login වී ඇත.</p>
-  <button onclick="logout()">Logout</button>
-
-  <script type="module" src="firebase.js"></script>
-</body>
-</html>
-
-<!-- login.html -->
-<!DOCTYPE html>
-<html>
-<head>
   <title>Login | s.m</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h2>s.m - පරිශීලක Login</h2>
-  <input type="email" id="email" placeholder="Email" required><br><br>
-  <input type="password" id="password" placeholder="Password" required><br><br>
-  <button onclick="login()">Login</button>
-
-  <script type="module" src="firebase.js"></script>
 </body>
 </html>
 
@@ -162,6 +141,7 @@
   <h2>s.m - ලියාපදිංචි වන්න</h2>
   <input type="email" id="email" placeholder="Email" required><br><br>
   <input type="password" id="password" placeholder="Password" required><br><br>
+  <button onclick="login()">Login</button>
   <button onclick="signUp()">Signup</button>
 
   <script type="module" src="firebase.js"></script>
@@ -300,7 +280,8 @@
     <button type="button" onclick="sendOTP()">📤 Send OTP</button>
     <input type="text" id="otp" placeholder="Enter OTP" />
     <button type="button" onclick="verifyOTP()">✅ Verify & Register</button>
-  </form>  <script>
+ <!-- Recaptcha එක render වෙන්න තියෙන්න ඕනෙ div එකක් -->
+<div id="recaptcha-container"></div> </form>  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
       authDomain: "fir-m-auth.firebaseapp.com",
@@ -352,165 +333,139 @@
         alert("Invalid OTP");
       });
     }
-  </script></body>
+	<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  </script>
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+
+<!-- Firebase Config + Initialization -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
+    authDomain: "fir-m-auth.firebaseapp.com",
+    projectId: "fir-m-auth",
+    storageBucket: "fir-m-auth.appspot.com",
+    messagingSenderId: "506358518430",
+    appId: "1:506358518430:web:4b3994472cef39e671a18f"
+  };
+
+  // Firebase Initialize
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+  function sendOTP() {
+    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+    const phoneRegex = /^\+94\d{9}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      alert('කරුණාකර වලංගු දුරකථන අංකයක් (+94xxxxxxxxx) ඇතුළත් කරන්න!');
+      return;
+    }
+
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+      'size': 'normal',
+      'callback': (response) => {}
+    });
+
+    const appVerifier = window.recaptchaVerifier;
+
+    firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        alert("OTP එක යවා ඇත!");
+      }).catch((error) => {
+        console.error("OTP error:", error);
+        alert("OTP යැවීමේ දෝෂයක්: " + error.message);
+      });
+  }
+
+  function verifyOTP() {
+    const code = document.getElementById('otp').value;
+    window.confirmationResult.confirm(code)
+      .then((result) => {
+        alert("OTP සාර්ථකයි! ✅");
+      }).catch((error) => {
+        alert("OTP වැරදියි ❌");
+      });
+  }
+</script>
+<!-- Firebase SDK & Config -->
+
+<!-- OTP Functions --->
+<!-- Date & Time Display Section -->
+</body>
 </html>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>S.M Firebase OTP Signup</title>
+  <meta charset="UTF-8">
+  <title>Live Time</title>
+  <script>
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("demo").innerText = now.toLocaleString();
+    }
+    setInterval(updateTime, 1000);
+  </script>
 </head>
 <body>
-  <h2>📱 Firebase OTP Signup (S.M)</h2>
-
-  <label>📞 Phone Number:</label><br>
-  <input type="text" id="phone" placeholder="+94771234567"><br><br>
-
-  <div id="recaptcha-container"></div><br>
-  <button id="sendOTP">Send OTP</button><br><br>
-
-  <label>🔐 Enter OTP:</label><br>
-  <input type="text" id="otp" placeholder="Enter OTP"><br><br>
-  <button id="verifyOTP">Verify OTP</button>
-
-  <!-- Firebase App & Auth SDK via Module -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    // 🔐 Firebase Configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
-      authDomain: "fir-m-auth.firebaseapp.com",
-      projectId: "fir-m-auth",
-      storageBucket: "fir-m-auth.appspot.com",
-      messagingSenderId: "506358518430",
-      appId: "1:506358518430:web:4b3994472cef39e671a18f"
-    };
-
-    // 🔧 Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // ✅ Setup reCAPTCHA
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-      'size': 'normal',
-      'callback': (response) => {
-        console.log("reCAPTCHA passed");
-      }
-    }, auth);
-    recaptchaVerifier.render();
-
-    // 📤 Send OTP
-    document.getElementById("sendOTP").addEventListener("click", async () => {
-      const phone = document.getElementById("phone").value;
-      const appVerifier = window.recaptchaVerifier;
-
-      try {
-        const confirmationResult = await signInWithPhoneNumber(auth, phone, appVerifier);
-        window.confirmationResult = confirmationResult;
-        alert("✅ OTP Sent to your phone!");
-      } catch (error) {
-        alert("🚫 Error sending OTP: " + error.message);
-        console.error(error);
-      }
-    });
-
-    // ✅ Verify OTP
-    document.getElementById("verifyOTP").addEventListener("click", async () => {
-      const otp = document.getElementById("otp").value;
-
-      try {
-        const result = await window.confirmationResult.confirm(otp);
-        alert("🎉 Phone number verified successfully!");
-        console.log(result.user);
-      } catch (error) {
-        alert("🚫 Incorrect OTP. Try again.");
-        console.error(error);
-      }
-    });
-  </script>
+  <h1>🕒 Current Date & Time</h1>
+  <p id="demo">Loading...</p>
 </body>
 </html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Firebase OTP Signup</title>
+  <title>S.M Chatbot</title>
+  
+  <!-- CSS Style එක මෙතන දාන්න -->
+  <style>
+    /* මේක ඔයාට දුන්න whatsapp chat style එක වගේ CSS එක */
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background: #1f1f1f;
+      border-radius: 10px;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+    #chatbox {
+      height: 250px;
+      overflow-y: auto;
+      border: 1px solid #00ffcc;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #0f0f0f;
+      border-radius: 5px;
+    }
+    #userInput {
+      width: 70%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      width: 25%;
+      padding: 8px;
+      background-color: #00ffcc;
+      border: none;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<script type="module" src="script.js"></script>
 <body>
-  <h2>Firebase Phone OTP Signup</h2>
 
-  <label>Phone Number:</label><br>
-  <input type="text" id="phone" placeholder="+94771234567" /><br><br>
 
-  <!-- reCAPTCHA widget here -->
-  <div id="recaptcha-container"></div><br>
 
-  <button id="sendOTP">Send OTP</button><br><br>
 
-  <label>Enter OTP:</label><br>
-  <input type="text" id="otp" placeholder="Enter OTP here" /><br><br>
-
-  <button id="verifyOTP">Verify OTP</button>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyB5IEqFLj25Syik7SBUCTrS7xHDEGJU9OI",
-      authDomain: "fir-m-auth.firebaseapp.com",
-      projectId: "fir-m-auth",
-      storageBucket: "fir-m-auth.appspot.com",
-      messagingSenderId: "506358518430",
-      appId: "1:506358518430:web:4b3994472cef39e671a18f"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Setup reCAPTCHA
-    window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-      'size': 'normal',
-      'callback': (response) => {
-        console.log("reCAPTCHA verified");
-      }
-    }, auth);
-
-    recaptchaVerifier.render();
-
-    document.getElementById('sendOTP').addEventListener('click', async () => {
-      const phoneNumber = document.getElementById('phone').value;
-      const appVerifier = window.recaptchaVerifier;
-
-      try {
-        const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
-        window.confirmationResult = confirmationResult;
-        alert("OTP sent! Please check your phone.");
-      } catch (error) {
-        alert("Error sending OTP: " + error.message);
-        console.error(error);
-      }
-    });
-
-    document.getElementById('verifyOTP').addEventListener('click', async () => {
-      const otp = document.getElementById('otp').value;
-
-      try {
-        const result = await window.confirmationResult.confirm(otp);
-        alert("Phone number verified successfully!");
-        console.log(result.user);
-      } catch (error) {
-        alert("Incorrect OTP, try again.");
-        console.error(error);
-      }
-    });
-  </script>
-</body>
-</html>
